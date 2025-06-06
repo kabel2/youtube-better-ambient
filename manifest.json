@@ -13,5 +13,11 @@
     "64": "icons/icon-64.png",
     "128": "icons/icon-128.png",
     "192": "icons/icon-192.png"
+  },
+   "browser_specific_settings": {
+    "gecko": {
+      "id": "pr0verter@gmail.com",
+      "strict_min_version": "109.0"
+    }
   }
 }
