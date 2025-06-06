@@ -22,7 +22,7 @@ jobs:
       - name: Install dependencies
         run: npm ci --prefer-offline --no-audit
 
-      - name: Build the extension with rsbuild
+      - name: Build the extension with rslib
         run: npm run build
 
       - name: Package the extension
