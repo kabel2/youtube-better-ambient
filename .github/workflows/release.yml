@@ -36,7 +36,7 @@ jobs:
         with:
           files: youtube-better-ambient.zip
       
-      - uses: browser-actions/public-firefox-addon@latest
+      - uses: browser-actions/release-firefox-addon@latest
         with:
           addon-id: "pr0verter@gmail.com"
           addon-path: "youtube-better-ambiet.zip"
