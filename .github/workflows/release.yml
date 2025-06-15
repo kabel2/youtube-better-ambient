@@ -39,7 +39,7 @@ jobs:
       - uses: browser-actions/release-firefox-addon@latest
         with:
           addon-id: "pr0verter@gmail.com"
-          addon-path: "youtube-better-ambiet.zip"
+          addon-path: "youtube-better-ambient.zip"
           source-path: "source.zip"
           approval-note: |
             The source project requires Node.js 20.x and npm.
