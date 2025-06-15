@@ -4,6 +4,7 @@ let video = getVideo();
 let canvas, ctx;
 let sourceX, sourceY, sourceW, sourceH;
 let aspectRatio = window.innerWidth / window.innerHeight;
+let loopRunning = false;
 
 const calculateSourceRect = () => {
     let videoW = video.videoWidth;
@@ -29,6 +30,7 @@ const drawToCanvas = () => {
         sourceX, sourceY, sourceW, sourceH,
         0, 0, window.innerWidth, window.innerHeight
     );
+    if (!loopRunning) return;
     video.requestVideoFrameCallback(drawToCanvas);
 }
 
@@ -92,7 +94,19 @@ const initialize = () => {
     video.addEventListener('resize', calculateSourceRect);
 
     calculateSourceRect();
+    loopRunning = true;
     drawToCanvas();
+
+    window.matchMedia('(display-mode: fullscreen)').addEventListener("change", ({ matches }) => {
+        if (matches) {
+            loopRunning = false;
+        } else {
+            if(loopRunning) return;
+            loopRunning = true;
+            drawToCanvas();
+        }
+    });
+
 }
 
 const detectVideoAndInit = () => {
