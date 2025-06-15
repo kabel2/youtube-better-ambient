@@ -13,6 +13,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Create source.zip for firefox store
+        run: zip -r source.zip .
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -32,3 +35,14 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: youtube-better-ambient.zip
+      
+      - uses: browser-actions/public-firefox-addon@latest
+        with:
+          addon-id: "pr0verter@gmail.com"
+          addon-path: "youtube-better-ambiet.zip"
+          source-path: "source.zip"
+          approval-note: |
+            The source project requires Node.js 20.x and npm.
+            To generate the source code, please run "npm run build"
+          auth-api-issuer: ${{ secrets.AUTH_API_ISSUER }}
+          auth-api-secret: ${{ secrets.AUTH_API_SECRET }}
