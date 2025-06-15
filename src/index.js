@@ -49,7 +49,10 @@ const initialize = () => {
 
     const setPropertyIfExists = (selector, propertyName, value) => {
         const element = document.querySelector(selector);
-        if (element) element.style.setProperty(propertyName, value, 'important');
+        if (element) {
+            element.style.setProperty(propertyName, value, 'important');
+            return true;
+        }
     }
 
     setPropertyIfExists('ytd-app', 'background-color', 'transparent');
@@ -57,18 +60,19 @@ const initialize = () => {
     setPropertyIfExists('#masthead', 'backdrop-filter', 'blur(80px)');
     setPropertyIfExists('#masthead', 'background-color', 'rgba(0,0,0,0.1)');
     setPropertyIfExists('#container', 'background-color', 'rgba(0,0,0,0.3)');
+    setPropertyIfExists('#cinematics-container', 'display', 'none');
 
     document.querySelectorAll('#voice-search-button, .ytSearchboxComponentInputBoxDark, #background.ytd-masthead').forEach((element) => {
         element.style.backgroundColor = defaultColor;
     });
 
-    const chatButtonSelector = 'ytd-button-renderer.style-scope.ytd-live-chat-frame';
+    let liveChatStyled, cinematicsDisabled  = false;
 
-    const observer = new MutationObserver((records) => {
-        if(document.querySelector(chatButtonSelector)) {
-            document.querySelector(chatButtonSelector).style.backgroundColor = defaultColor;
-            observer.disconnect(document);
-        }
+    const observer = new MutationObserver(() => {
+        if (!cinematicsDisabled) cinematicsDisabled = setPropertyIfExists('#cinematics-container', 'display', 'none');
+        if (!liveChatStyled) liveChatStyled = setPropertyIfExists('ytd-button-renderer.style-scope.ytd-live-chat-frame', 'backgroundColor', defaultColor);
+
+        if (cinematicsDisabled && liveChatStyled) observer.disconnect(document);
     });
 
     setTimeout(() => {
