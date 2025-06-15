@@ -47,5 +47,6 @@ jobs:
           approval-note: |
             The source project requires Node.js 20.x and npm.
             To generate the source code, please run "npm run build"
+          license: "MIT"
           auth-api-issuer: ${{ secrets.AUTH_API_ISSUER }}
           auth-api-secret: ${{ secrets.AUTH_API_SECRET }}
