@@ -5,8 +5,13 @@
   "description": "Enhances YouTube’s ambient mode by placing a blurred version of the video in the background for a more immersive experience",
   "content_scripts": [
     {
-      "matches": ["https://www.youtube.com/*", "https://youtube.com/*"],
-      "js": ["dist/index.js"]
+      "matches": [
+        "https://www.youtube.com/*",
+        "https://youtube.com/*"
+      ],
+      "js": [
+        "dist/static/js/script.js"
+      ]
     }
   ],
   "icons": {
@@ -14,10 +19,16 @@
     "128": "icons/icon-128.png",
     "192": "icons/icon-192.png"
   },
-   "browser_specific_settings": {
+  "browser_specific_settings": {
     "gecko": {
       "id": "pr0verter@gmail.com",
       "strict_min_version": "109.0"
     }
-  }
+  },
+  "action": {
+    "default_popup": "dist/popup.html"
+  },
+  "permissions": [
+    "storage"
+  ] 
 }

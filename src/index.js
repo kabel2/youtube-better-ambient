@@ -6,6 +6,30 @@ let sourceX, sourceY, sourceW, sourceH;
 let aspectRatio = window.innerWidth / window.innerHeight;
 let loopRunning = false;
 
+const storage = browser.storage.local;
+
+let blurValue = 0; // blur is something deprecated in js...
+let opacity = 1;
+let active = false;
+
+browser.storage.onChanged.addListener((changes) => {
+    for (const item in changes) {
+        switch (item) {
+            case "blur":
+                blurValue = changes[item].newValue;
+                break;
+            case "opacity":
+                opacity = changes[item].newValue;
+                break;
+            case "active":
+                active = changes[item].newValue;
+                break;
+        }
+    }
+    canvas.style.filter = `blur(${blurValue}px)`;
+    canvas.style.opacity = opacity.toString();
+})
+
 const calculateSourceRect = () => {
     let videoW = video.videoWidth;
     let videoH = video.videoHeight;
@@ -34,9 +58,14 @@ const drawToCanvas = () => {
     video.requestVideoFrameCallback(drawToCanvas);
 }
 
-const initialize = () => {
+const initialize = async () => {
+    const result = await storage.get(['active', 'blur', 'opacity']);
+    active = result.active;
+    blurValue = result.blur;
+    opacity = result.opacity;
+
     canvas = document.createElement('canvas');
-    canvas.style.cssText = 'top:0;left:0;bottom:0;right:0;position:fixed;width:100vw;height:100vh;z-index:-1;filter:blur(10px) opacity(0.5);';
+    canvas.style.cssText = `top:0;left:0;bottom:0;right:0;position:fixed;width:100vw;height:100vh;z-index:-1;filter:blur(${blurValue}px) opacity(${opacity});`;
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     document.body.appendChild(canvas);
@@ -68,7 +97,7 @@ const initialize = () => {
         element.style.backgroundColor = defaultColor;
     });
 
-    let liveChatStyled, cinematicsDisabled  = false;
+    let liveChatStyled, cinematicsDisabled = false;
 
     const observer = new MutationObserver(() => {
         if (!cinematicsDisabled) cinematicsDisabled = setPropertyIfExists('#cinematics-container', 'display', 'none');
@@ -101,7 +130,7 @@ const initialize = () => {
         if (matches) {
             loopRunning = false;
         } else {
-            if(loopRunning) return;
+            if (loopRunning) return;
             loopRunning = true;
             drawToCanvas();
         }
