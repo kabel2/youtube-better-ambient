@@ -13,10 +13,20 @@
     "dist"
   ],
   "scripts": {
-    "build": "rslib build",
-    "dev": "rslib build --watch"
+    "build": "rsbuild build",
+    "dev": "rsbuild dev",
+    "start": "rsbuild dev",
+    "start:firefox": "web-ext run --source-dir ./"
   },
   "devDependencies": {
-    "@rslib/core": "^0.9.2"
+    "@rsbuild/core": "^1.4.12",
+    "@tailwindcss/postcss": "^4.1.11",
+    "tailwindcss": "^4.1.11",
+    "@rsbuild/plugin-react": "1.4.2"
+  },
+  "dependencies": {
+    "lodash.throttle": "^4.1.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
   }
 }

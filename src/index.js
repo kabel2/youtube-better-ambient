@@ -1,10 +1,33 @@
+import throttle from 'lodash.throttle';
+
+
 const getVideo = () => document.querySelector('video-stream.html5-main-video, video');
 
 let video = getVideo();
-let canvas, ctx;
+let canvas, ctx, overlay;
 let sourceX, sourceY, sourceW, sourceH;
 let aspectRatio = window.innerWidth / window.innerHeight;
 let loopRunning = false;
+
+const storage = browser.storage.local;
+
+let blurValue = 15; // blur is something deprecated in js...
+let opacity = 0.6;
+
+browser.storage.onChanged.addListener((changes) => {
+    for (const item in changes) {
+        switch (item) {
+            case "blur":
+                blurValue = changes[item].newValue;
+                break;
+            case "opacity":
+                opacity = changes[item].newValue;
+                break;
+        }
+    }
+    canvas.style.opacity = opacity.toString();
+    overlay.style.backdropFilter = `blur(${blurValue}px)`;
+});
 
 const calculateSourceRect = () => {
     let videoW = video.videoWidth;
@@ -34,12 +57,32 @@ const drawToCanvas = () => {
     video.requestVideoFrameCallback(drawToCanvas);
 }
 
-const initialize = () => {
+const initialize = async () => {
+    ({ blur: blurValue = 15, opacity = 0.6 } = await storage.get(['blur', 'opacity']));
+
     canvas = document.createElement('canvas');
-    canvas.style.cssText = 'top:0;left:0;bottom:0;right:0;position:fixed;width:100vw;height:100vh;z-index:-1;filter:blur(10px) opacity(0.5);';
+    canvas.style.inset = '0';
+    canvas.style.position = 'fixed';
+    canvas.style.width = '100vw';
+    canvas.style.height = '100vh';
+    canvas.style.zIndex = '-2';
+    canvas.style.opacity = opacity.toString();
+
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+
+    overlay = document.createElement('div');
+    overlay.style.zIndex = '-1';
+    overlay.style.opacity = '1';
+    overlay.style.width = '100vw';
+    overlay.style.height = '100vh';
+    overlay.style.inset = '0';
+    overlay.style.position = 'fixed';
+    overlay.style.backdropFilter = `blur(${blurValue}px)`;
+
     document.body.appendChild(canvas);
+    document.body.appendChild(overlay);
+
     ctx = canvas.getContext('2d');
 
     const defaultColor = '#12121252';
@@ -48,6 +91,7 @@ const initialize = () => {
     document.documentElement.style.setProperty('--yt-spec-brand-background-primary', 'rgba(24,24,24,.45)');
     document.documentElement.style.setProperty('--ytd-searchbox-background', defaultColor);
     document.documentElement.style.setProperty('--yt-spec-brand-background-solid', defaultColor);
+    document.documentElement.style.setProperty('--yt-spec-base-background', defaultColor);
 
     const setPropertyIfExists = (selector, propertyName, value) => {
         const element = document.querySelector(selector);
@@ -68,7 +112,7 @@ const initialize = () => {
         element.style.backgroundColor = defaultColor;
     });
 
-    let liveChatStyled, cinematicsDisabled  = false;
+    let liveChatStyled, cinematicsDisabled = false;
 
     const observer = new MutationObserver(() => {
         if (!cinematicsDisabled) cinematicsDisabled = setPropertyIfExists('#cinematics-container', 'display', 'none');
@@ -87,6 +131,11 @@ const initialize = () => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
         calculateSourceRect();
+        ctx.drawImage(
+            video,
+            sourceX, sourceY, sourceW, sourceH,
+            0, 0, window.innerWidth, window.innerHeight
+        );
     });
 
     video.addEventListener('loadedmetadata', calculateSourceRect);
@@ -101,12 +150,16 @@ const initialize = () => {
         if (matches) {
             loopRunning = false;
         } else {
-            if(loopRunning) return;
+            if (loopRunning) return;
             loopRunning = true;
             drawToCanvas();
         }
     });
 
+    const videoObserver = new MutationObserver(throttle(() => {
+        video = getVideo();
+    }, 200));
+    videoObserver.observe(document.body, { childList: true, subtree: true });
 }
 
 const detectVideoAndInit = () => {
