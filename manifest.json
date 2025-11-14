@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "youtube-beter-ambient",
+  "name": "youtube-better-ambient",
   "version": "1.0.8",
   "description": "Enhances YouTube’s ambient mode by placing a blurred version of the video in the background for a more immersive experience",
   "content_scripts": [
