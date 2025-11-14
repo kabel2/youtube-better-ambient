@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 import Slider from './components/Slider';
-import Checkbox from './components/Checkbox';
+import { DEFAULT_BLUR, DEFAULT_OPACITY } from '../config/default';
 
 import './popup.css';
 
@@ -15,8 +15,8 @@ const Popup = () => {
   useEffect(() => {
     storage.get(['active', 'blur', 'opacity']).then((result) => {
       setActive(result.active ?? false);
-      setBlur(result.blur ?? 0);
-      setOpacity(result.opacity ?? 1);
+      setBlur(result.blur ?? DEFAULT_BLUR);
+      setOpacity(result.opacity ?? DEFAULT_OPACITY);
     });
   }, []);
 
@@ -26,17 +26,6 @@ const Popup = () => {
 
   return (
     <div className="p-5 w-76">
-      <div className="flex justify-between">
-        Enabled
-        <Checkbox
-          checked={active}
-          onChange={(checked) => {
-            setActive(checked);
-            handleChange({ active: checked, blur, opacity });
-          }}>
-        </Checkbox>
-      </div>
-
       <div className="grid grid-cols-5 gap-3">
         <label>Blur</label>
         <Slider

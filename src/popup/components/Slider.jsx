@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 
 const Slider = ({ min, max, step, value, onChange, ...props }) => {
     const handleChange = useCallback(({ target }) => {
