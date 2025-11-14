@@ -5,7 +5,9 @@ import tailwind from '@tailwindcss/postcss';
 
 export default defineConfig({
   performance: {
-    chunkSplit: 'all-in-one'
+    chunkSplit: {
+      strategy: 'all-in-one',
+    },
   },
   dev: {
     hmr: false,
@@ -18,7 +20,12 @@ export default defineConfig({
     },
     htmlPlugin: {
       publicPath: ''
-    }
+    },
+    rspack: {
+      output: {
+        asyncChunks: false,
+      },
+    },
   },
   environments: {
     popup: {
@@ -44,7 +51,7 @@ export default defineConfig({
         entry: {
           script: {
             import: './src/index.js',
-            html: false
+            html: true
           }
         }
       }
