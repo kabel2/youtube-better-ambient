@@ -29,7 +29,7 @@ jobs:
         run: npm run build
 
       - name: Package the extension
-        run: zip -r youtube-better-ambient.zip manifest.json icons dist/index.js
+        run: zip -r youtube-better-ambient.zip manifest.json icons dist
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2

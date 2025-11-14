@@ -30,7 +30,12 @@ export default defineConfig({
   environments: {
     popup: {
       output: {
-        target: 'web'
+        target: 'web',
+        legalComments: 'inline',
+        filename: {
+          js: '[name].js',
+          css: '[name].css'
+        }
       },
       source: {
         entry: {
@@ -51,7 +56,7 @@ export default defineConfig({
         entry: {
           script: {
             import: './src/index.js',
-            html: true
+            html: false
           }
         }
       }
