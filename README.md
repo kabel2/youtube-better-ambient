@@ -17,6 +17,7 @@ youtube-better-ambient is a browser extension that enhances YouTube’s ambient 
 
 ## Development Setup
 ```bash
+npm ci
 npm run dev
 ```
 
@@ -26,4 +27,8 @@ npm install --global web-ext
 web-ext run
 ```
 
+## Build
+```bash
+npm run build
+```
 
