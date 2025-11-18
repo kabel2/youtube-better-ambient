@@ -24,7 +24,7 @@ npm run dev
 (Optional for auto reload and seperate firefox)
 ```bash
 npm install --global web-ext
-web-ext run
+web-ext run --start-url https://youtube.com --devtools
 ```
 
 ## Build

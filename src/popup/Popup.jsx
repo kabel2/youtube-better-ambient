@@ -2,10 +2,9 @@ import { useState, useEffect } from "react";
 
 import Slider from './components/Slider';
 import { DEFAULT_BLUR, DEFAULT_OPACITY } from '../config/default';
+import { storageLocal } from '../shared/storage';
 
 import './popup.css';
-
-const storage = browser.storage.local;
 
 const Popup = () => {
   const [active, setActive] = useState(false);
@@ -13,7 +12,7 @@ const Popup = () => {
   const [opacity, setOpacity] = useState(1);
 
   useEffect(() => {
-    storage.get(['active', 'blur', 'opacity']).then((result) => {
+    storageLocal.get(['active', 'blur', 'opacity']).then((result) => {
       setActive(result.active ?? false);
       setBlur(result.blur ?? DEFAULT_BLUR);
       setOpacity(result.opacity ?? DEFAULT_OPACITY);
@@ -21,7 +20,7 @@ const Popup = () => {
   }, []);
 
   const handleChange = (newValues) => {
-    storage.set(newValues);
+    storageLocal.set(newValues);
   };
 
   return (
@@ -34,7 +33,6 @@ const Popup = () => {
           step={1}
           value={blur}
           onChange={(value) => {
-            console.log("value", value);
             setBlur(value);
             handleChange({ active, blur: value, opacity });
           }}

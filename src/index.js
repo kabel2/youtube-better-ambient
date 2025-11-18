@@ -1,5 +1,6 @@
 import throttle from 'lodash.throttle';
 
+import { storageLocal } from './shared/storage';
 
 const getVideo = () => document.querySelector('video-stream.html5-main-video, video');
 
@@ -9,12 +10,10 @@ let sourceX, sourceY, sourceW, sourceH;
 let aspectRatio = window.innerWidth / window.innerHeight;
 let loopRunning = false;
 
-const storage = browser.storage.local;
-
 let blurValue = 15; // blur is something deprecated in js...
 let opacity = 0.6;
 
-browser.storage.onChanged.addListener((changes) => {
+storageLocal.onChanged.addListener((changes) => {
     for (const item in changes) {
         switch (item) {
             case "blur":
@@ -58,7 +57,7 @@ const drawToCanvas = () => {
 }
 
 const initialize = async () => {
-    ({ blur: blurValue = 15, opacity = 0.6 } = await storage.get(['blur', 'opacity']));
+    ({ blur: blurValue = 15, opacity = 0.6 } = await storageLocal.get(['blur', 'opacity']));
 
     canvas = document.createElement('canvas');
     canvas.style.inset = '0';

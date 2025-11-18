@@ -14,15 +14,17 @@
   ],
   "scripts": {
     "build": "rsbuild build",
+    "build:zip": "npm run build && bestzip youtube-better-ambient.zip manifest.json icons dist/*",
     "dev": "rsbuild dev",
     "start": "rsbuild dev",
     "start:firefox": "web-ext run --source-dir ./"
   },
   "devDependencies": {
     "@rsbuild/core": "^1.4.12",
+    "@rsbuild/plugin-react": "1.4.2",
     "@tailwindcss/postcss": "^4.1.11",
-    "tailwindcss": "^4.1.11",
-    "@rsbuild/plugin-react": "1.4.2"
+    "bestzip": "^2.2.1",
+    "tailwindcss": "^4.1.11"
   },
   "dependencies": {
     "lodash.throttle": "^4.1.1",
