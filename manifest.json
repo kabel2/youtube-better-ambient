@@ -11,6 +11,9 @@
       ],
       "js": [
         "dist/static/js/script.js"
+      ],
+      "css": [
+        "src/styles.css"
       ]
     }
   ],
@@ -30,5 +33,5 @@
   },
   "permissions": [
     "storage"
-  ] 
+  ]
 }

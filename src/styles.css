@@ -1,0 +1,47 @@
+:root {
+  --yt-spec-general-background-a: #18181873;
+  --yt-spec-brand-background-primary: rgba(24,24,24,.45);
+  --ytd-searchbox-background: #12121252;
+  --yt-spec-brand-background-solid: #12121252;
+  --yt-spec-base-background: #12121252;
+}
+
+ytd-app {
+  background-color: transparent !important;
+}
+
+.ytSearchboxComponentInputBoxDark {
+  border-color: rgba(18, 18, 18, 0.1) !important;
+  background-color: #12121252 !important;
+}
+
+#masthead {
+  backdrop-filter: blur(80px) !important;
+  background-color: rgba(0,0,0,0.1) !important;
+}
+
+#container {
+  background-color: rgba(0,0,0,0.3) !important;
+}
+
+#cinematics-container,
+#cinematics-full-bleed-container {
+  display: none !important;
+}
+
+#full-bleed-container {
+  background-color: transparent !important;
+}
+
+#voice-search-button,
+#background.ytd-masthead {
+  background-color: #12121252 !important;
+}
+
+ytd-button-renderer.style-scope.ytd-live-chat-frame {
+  background-color: #12121252 !important;
+}
+
+#movie_player {
+    background-color: transparent;
+}

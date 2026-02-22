@@ -84,48 +84,6 @@ const initialize = async () => {
 
     ctx = canvas.getContext('2d');
 
-    const defaultColor = '#12121252';
-
-    document.documentElement.style.setProperty('--yt-spec-general-background-a', '#18181873');
-    document.documentElement.style.setProperty('--yt-spec-brand-background-primary', 'rgba(24,24,24,.45)');
-    document.documentElement.style.setProperty('--ytd-searchbox-background', defaultColor);
-    document.documentElement.style.setProperty('--yt-spec-brand-background-solid', defaultColor);
-    document.documentElement.style.setProperty('--yt-spec-base-background', defaultColor);
-
-    const setPropertyIfExists = (selector, propertyName, value) => {
-        const element = document.querySelector(selector);
-        if (element) {
-            element.style.setProperty(propertyName, value, 'important');
-            return true;
-        }
-    }
-
-    setPropertyIfExists('ytd-app', 'background-color', 'transparent');
-    setPropertyIfExists('.ytSearchboxComponentInputBoxDark', 'border-color', 'rgba(18, 18, 18, 0.1)');
-    setPropertyIfExists('#masthead', 'backdrop-filter', 'blur(80px)');
-    setPropertyIfExists('#masthead', 'background-color', 'rgba(0,0,0,0.1)');
-    setPropertyIfExists('#container', 'background-color', 'rgba(0,0,0,0.3)');
-    setPropertyIfExists('#cinematics-container', 'display', 'none');
-
-    document.querySelectorAll('#voice-search-button, .ytSearchboxComponentInputBoxDark, #background.ytd-masthead').forEach((element) => {
-        element.style.backgroundColor = defaultColor;
-    });
-
-    let liveChatStyled, cinematicsDisabled = false;
-
-    const observer = new MutationObserver(() => {
-        if (!cinematicsDisabled) cinematicsDisabled = setPropertyIfExists('#cinematics-container', 'display', 'none');
-        if (!liveChatStyled) liveChatStyled = setPropertyIfExists('ytd-button-renderer.style-scope.ytd-live-chat-frame', 'backgroundColor', defaultColor);
-
-        if (cinematicsDisabled && liveChatStyled) observer.disconnect(document);
-    });
-
-    setTimeout(() => {
-        observer.disconnect(document);
-    }, 5000);
-
-    observer.observe(document, { attributes: false, childList: true, characterData: false, subtree: true });
-
     window.addEventListener('resize', () => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
