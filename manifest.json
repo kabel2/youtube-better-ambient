@@ -13,7 +13,7 @@
         "dist/static/js/script.js"
       ],
       "css": [
-        "src/styles.css"
+        "dist/styles.css"
       ]
     }
   ],

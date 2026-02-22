@@ -46,6 +46,9 @@ export default defineConfig({
     },
     script: {
       output: {
+        copy: [
+          { from: './src/styles.css' }
+        ],
         target: 'web',
         legalComments: 'inline',
         filename: {
