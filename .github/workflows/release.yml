@@ -42,8 +42,7 @@ jobs:
           addon-path: "youtube-better-ambient.zip"
           source-path: "source.zip"
           release-note: |
-            Fixes
-            - Disable native ambient mode to fix extension displaying properly
+            - General maintenance improvements
           approval-note: |
             The source project requires Node.js 20.x and npm.
             To generate the source code, please run "npm run build"
