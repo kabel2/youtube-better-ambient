@@ -20,16 +20,12 @@ ytd-app {
   background-color: rgba(0,0,0,0.1) !important;
 }
 
-#container {
-  background-color: rgba(0,0,0,0.3) !important;
-}
-
 #cinematics-container,
 #cinematics-full-bleed-container {
   display: none !important;
 }
 
-#full-bleed-container {
+.style-scope.ytd-feed-nudge-renderer, .ytwPanelAdHeaderImageLockupViewModelHost, #full-bleed-container, .header.ytd-playlist-panel-renderer, .playlist-items.ytd-playlist-panel-renderer, .playlist-items.style-scope.ytd-playlist-panel-renderer  {
   background-color: transparent !important;
 }
 
